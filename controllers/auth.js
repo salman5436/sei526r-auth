@@ -41,27 +41,31 @@ router.post('/register', function(req, res) {
 // login get route
 router.get('/login', function(req, res) {
     res.render('/auth/login');
-})
+});
 
 // login post route
-// TODO: pass next param to function
-router.post('/login', function(req, res) {
+router.post('/login', function(req, res, next) {
     passport.authenticate('local', function(error, user, info) {
         // if no user authenticated
         if (!user) {
             req.flash('error', 'Invalid username or password');
-            // save to our user session no username
-            // redirect our user to try logging in again
+            req.session.save(function() {
+                return res.redirect('/auth/login');
+            });
         }
         if (error) {
-            // TODO: add next param from function
-            return error;
+            return next(error);
         }
 
         req.login(function(user, error) {
             // if error move to error
+            if (error) next(error);
             // if success flash success message
+            req.flash('success', 'You are validated and logged in.');
             // if success save session and redirect user
+            req.session.save(function() {
+                return res.redirect('/');
+            })
         })
     })
 })
