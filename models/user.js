@@ -36,11 +36,14 @@ module.exports = function(sequelize, DataTypes) {
         hooks: {
             // before record creation
             beforeCreate: function(createdUser, options) {
+                console.log('🛎 Creating a user soon!')
                 if (createdUser && createdUser.password) {
                     let hash = bcrypt.hashSync(createdUser.password, 12);
                     createdUser.password = hash;
                 }
             }
+            //
+            //
         }
     });
     user.associate = function(models) {
