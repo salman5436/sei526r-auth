@@ -4,6 +4,18 @@
         <title>Auth Boilerplate</title>
     </head>
     <body>
+        <header>
+            <nav>
+                <!-- if someone is logged in, and they hit this a, it will run the get route -->
+                <% if (currentUser) { %>
+                    <a href='/auth/logout'>Logout</a>
+                    <a href='/profile'>Profile</a>
+                <% }  else { %>
+                    <a href="/auth/register">Register</a>
+                    <a href="/auth/login">Login</a>
+                <% } %>
+            </nav>
+        </header>
         <div class="container">
             <h1>Authenticating Users 🐋</h1>
             <%- body %>
