@@ -30,10 +30,9 @@ router.post('/register', function(req, res) {
             // authenticate user and start authorization process:
             console.log("User created! 🎉");
             passport.authenticate('local', {
-                successRedirect: '/',
+                successRedirect: '/profile',
                 successFlash: 'Thanks for signing up'
             })(req, res); // attaching the req and res when registering a user
-            res.redirect("/");
         } else {
             // else if user already exists
             //send error user that email already exists
@@ -74,7 +73,7 @@ router.post('/login', function(req, res, next) {
         }
         
         //.login & .logout are built into passport
-        req.login(function(user, error) {
+        req.login(user, function(error) {
             // if error move to error
             if (error) next(error);
             // if success flash success message
