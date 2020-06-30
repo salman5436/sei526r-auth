@@ -21,6 +21,7 @@ passport.deserializeUser(function(id, callback) {
 
 // passport local variables/settings
 // I want to create a new instance of the LocalStrategies class
+// localStrategy:  for each request, we will check for user & password 
 passport.use(new LocalStrategy({
     //every instance of LocalStrategy has username and password fields
     usernameField: 'email',
@@ -30,9 +31,10 @@ passport.use(new LocalStrategy({
         //find me a user where the password is the password above -- matching login queries
         //if the user doesn't exist OR the user password is invalid
         if (!user || !user.validPassword(password)) {
+            //if there is no user, or user put in the wrong passowrd, then the user value on the request value will be false
             callback(null, false);
         } else {
-            //otherwise create the data in the model user
+            //otherwise the user value for the password will match the one with 
             callback(null, user);
         }
     }).catch(callback);

@@ -14,8 +14,8 @@ const flash = require('flash');
 // ---[flash allows us to bind a message onto the request object - the reaction to the request before the response happens
 const passport = require('./config/ppConfig');
 const db = require('./models');
-// want to add a link to our customer middleware for isLogged
-
+// want to add a link to our customer middleware for isLogged --> which we use as a function for the profile get route
+const isLoggedIn = require('./middleware/isLoggedIn')
 //session library that can store session data - its a class
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
@@ -62,8 +62,8 @@ app.use(passport.session());
 app.use(flash());
 
 app.use(function(req, res, next) {
-    //linking the partial alerts to flash messages
-    //locals is a key of local variables - alert, etc.
+    //linking the partial alerts to flash messages --> being able to use the use in the response (res)
+    //locals is a key of local variables - alert, etc. ---> this is creating local variables that you can use [inLoggedIn]
     res.locals.alert = req.flash();
     //setting the flash alerts for the current user
     res.locals.currentUser = req.user;
@@ -79,6 +79,12 @@ app.get('/', function(req, res) {
     // check to see if user logged in
     res.render('index');
 })
+
+//passing isLoggedIn middleware so that it runs before req and res to see if the user is there?
+app.get('/profile', isLoggedIn, function(req, res) {
+    res.render('profile', {test: "another test"});
+})
+
 
 // include auth controller
 app.use('/auth', require('./controllers/auth'));

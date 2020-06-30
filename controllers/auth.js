@@ -51,7 +51,7 @@ router.get('/login', function(req, res) {
     res.render('auth/login');
 });
 
-// login post route
+// login post route ---> values of error and user are taken from the passport LocalStrategy in the ppConfig
 // pass next param to function -- next is the only other param  -- function built into express and will find the next route pattern and run that
 router.post('/login', function(req, res, next) {
     passport.authenticate('local', function(error, user, info) {
