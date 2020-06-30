@@ -27,8 +27,12 @@ router.post('/register', function(req, res) {
     }).then(function([user, created]) {
         // if user was created
         if (created) {
-            // authenticate user and start authorization process
+            // authenticate user and start authorization process:
             console.log("User created! 🎉");
+            passport.authenticate('local', {
+                successRedirect: '/',
+                successFlash: 'Thanks for signing up'
+            })(req, res); // attaching the req and res when registering a user
             res.redirect("/");
         } else {
             // else if user already exists
@@ -80,7 +84,7 @@ router.post('/login', function(req, res, next) {
                 return res.redirect('/');
             })
         })
-    })
+    })(req, res, next); //attaching the login to the req, response
 })
 
 // key value pairs based on if authenticate goes well
