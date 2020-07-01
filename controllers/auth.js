@@ -15,6 +15,7 @@ const passport = require('../config/ppConfig')
 router.get('/register', function(req, res) {
     res.render('auth/register');
 })
+
 // register post route
 router.post('/register', function(req, res) {
     db.user.findOrCreate({
