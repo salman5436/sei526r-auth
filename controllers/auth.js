@@ -59,14 +59,12 @@ router.get('/login', function(req, res) {
 // pass next param to function -- next is the only other param  -- function built into express and will find the next route pattern and run that
 router.post('/login', function(req, res, next) {
     passport.authenticate('local', function(error, user, info) {
-        // if no user authenticated
+        // if no user authenticated [if user=null]
         if (!user) {
             req.flash('error', 'Invalid username or password');
-            // save to our user session no username
-            req.session.save(function() {
-                // redirect our user to try logging in again
-                return res.redirect('/auth/login');
-            });
+            console.log('💩butts');
+            // redirect our user to try logging in again
+            return res.redirect('/auth/login');
         }
         if (error) {
             // add next param from function -- go to the next error call, which is the route below
@@ -87,13 +85,15 @@ router.post('/login', function(req, res, next) {
     })(req, res, next); //attaching the login to the req, response
 })
 
-// key value pairs based on if authenticate goes well
-router.post('/login', passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/auth/login',
-    successFlash: 'Welcome to our app!',
-    failureFlash: 'Invalid username or password.'
-}));
+// key value pairs based on if authenticate goes well ---- GONEEEE
+// router.post('/login', passport.authenticate('local', {
+//     successRedirect: '/',
+//     failureRedirect: '/auth/login',
+//     successFlash: 'Welcome to our app!',
+//     failureFlash: 'Invalid username or password.'
+// }));
+
+
 
 router.get('/logout', function(req, res) {
     req.logout();
