@@ -5,7 +5,7 @@ const router = express.Router()
 //import db
 const db = require('../models')
 //import middleware
-const flash = require('flash');
+const flash = require('connect-flash');
 // Linking the requiring passport to config file path
 const passport = require('../config/ppConfig')
 // ^ What pp config does is require passport and customize the strategy we will use with a specfic database to authenticate

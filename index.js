@@ -10,7 +10,7 @@ const ejsLayouts = require('express-ejs-layouts');
 const helmet = require('helmet');
 const session = require('express-session');
 //flash : if something was to happen in between middleware, like an error, you need a flash message
-const flash = require('flash');
+const flash = require('connect-flash');
 // ---[flash allows us to bind a message onto the request object - the reaction to the request before the response happens
 const passport = require('./config/ppConfig');
 const db = require('./models');
@@ -18,6 +18,7 @@ const db = require('./models');
 const isLoggedIn = require('./middleware/isLoggedIn')
 //session library that can store session data - its a class
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
+// NOTE: Flash messages weren't working because we didn't connect Flash so the alerts were undefined
 
 
 
@@ -64,7 +65,7 @@ app.use(flash());
 app.use(function(req, res, next) {
     //linking the partial alerts to flash messages --> being able to use the use in the response (res)
     //locals is a key of local variables - alert, etc. ---> this is creating local variables that you can use [inLoggedIn]
-    res.locals.alert = req.flash();
+    res.locals.alerts = req.flash();
     //setting the flash alerts for the current user
     res.locals.currentUser = req.user;
     
